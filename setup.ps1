@@ -25,6 +25,10 @@ param([string]$packageName = '')
   return $false
 }
 
+function Install-Pack ($file) {
+  Get-Content $file | where {$_} | Foreach-Object { cinstm $_ }
+}
+
 $installChocolatey = Install-NeededFor 'chocolatey'
 $installRuby = Install-NeededFor 'ruby / ruby devkit'
 $installHome = Install-NeededFor 'home packages'
@@ -38,15 +42,16 @@ if ($installChocolatey) {
 if ($installRuby) {
   #cinstm ruby #devkit install will automatically install ruby
   cinstm ruby.devkit
+
+  #perform ruby updates and get gems
+  gem update --system
+  gem install rake
+  gem install bundler
 }
 
-#perform ruby updates and get gems
-gem update --system
-gem install rake
-gem install bundler
 
-cinst $scriptPath\packages.config
+Install-Pack $scriptPath\packages\main.txt
 
 if ($installHome) {
-  cinst $scriptPath\home.xml
+  Install-Pack $scriptPath\packages\home.txt
 }

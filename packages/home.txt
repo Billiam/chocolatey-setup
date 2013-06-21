@@ -1,0 +1,7 @@
+f.lux
+mpc-hc
+picard
+RSSOwl
+speedfan
+steam
+thunderbird
