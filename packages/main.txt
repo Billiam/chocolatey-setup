@@ -1,5 +1,4 @@
 ack
-avastfreeantivirus
 Console2
 curl
 ditto
